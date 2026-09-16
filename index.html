@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#174c3c" />
+    <meta
+      name="description"
+      content="Convert PDF, Word, Markdown, text, HTML, CSV, JSON and images privately in your browser. Ten everyday file formats, no uploads."
+    />
+    <title>File Converter — A new format. The same file.</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <a class="skip-link" href="#converter">Skip to converter</a>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="File Converter home"
+        ><svg viewBox="0 0 32 32" aria-hidden="true">
+          <path d="M7 5h12l6 6v16H7z" />
+          <path d="M19 5v7h6M11 17h10m-3-3 3 3-3 3M21 23H11m3-3-3 3 3 3" /></svg
+        >File Converter<span class="brand-dot">.</span></a
+      >
+      <nav aria-label="Main navigation">
+        <a href="#formats">Formats</a><a href="#how-it-works">How it works</a
+        ><a
+          href="https://github.com/jared0565/File-Converter"
+          target="_blank"
+          rel="noopener noreferrer"
+          >GitHub
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 17 17 7M7 7h10v10" /></svg
+        ></a>
+      </nav>
+    </header>
+    <main>
+      <section class="intro">
+        <h1>A new format.<br /><span>The same possibilities.</span></h1>
+        <p>
+          Documents, images, and data. Convert the files you work with, right
+          where you are.
+        </p>
+        <div class="privacy-note">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6zM8 12l3 3 5-6" /></svg
+          >Your files stay on your device. Always.
+        </div>
+      </section>
+      <section id="converter" class="workspace" aria-label="File converter">
+        <div class="workspace-head">
+          <h2>Let’s convert your file</h2>
+          <span>20 MB maximum</span>
+        </div>
+        <div class="workspace-body">
+          <div class="file-side">
+            <input
+              type="file"
+              id="file-input"
+              tabindex="-1"
+              class="visually-hidden"
+              accept=".pdf,.docx,.md,.markdown,.txt,.html,.htm,.csv,.json,.jpg,.jpeg,.png,.webp"
+              aria-label="Choose a file to convert"
+            />
+            <button type="button" class="drop-zone" id="drop-zone">
+              <svg class="upload-icon" viewBox="0 0 48 48" aria-hidden="true">
+                <path
+                  d="M14 5h14l9 9v29H11V5h3M28 5v10h9M24 34V22m-6 6 6-6 6 6"
+                /></svg
+              ><strong>Drop your file here</strong
+              ><span
+                >or <span class="browse-text">browse files</span> on your
+                device</span
+              ><small>Documents, images &amp; data</small>
+            </button>
+            <div id="selected-file" class="selected-file" hidden>
+              <div class="file-badge" id="file-badge"></div>
+              <div class="file-info">
+                <strong id="file-name"></strong><span id="file-size"></span>
+              </div>
+              <button
+                type="button"
+                id="remove-file"
+                class="icon-button"
+                aria-label="Remove selected file"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="m6 6 12 12M6 18 18 6" />
+                </svg>
+              </button>
+            </div>
+            <div class="local-note">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="5" y="10" width="14" height="11" rx="2" />
+                <path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg
+              >No upload. No account. Just your file.
+            </div>
+          </div>
+          <div class="output-side">
+            <label for="output-format">Convert to</label>
+            <div class="select-wrap">
+              <select
+                id="output-format"
+                aria-describedby="format-help"
+                disabled
+              >
+                <option value="">Choose a file first</option></select
+              ><svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m7 10 5 5 5-5" />
+              </svg>
+            </div>
+            <p id="format-help" class="format-help">
+              Available formats appear once you choose a file.
+            </p>
+            <button id="convert-button" class="primary-button" disabled>
+              <span>Convert file</span
+              ><svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 12h16m-6-6 6 6-6 6" />
+              </svg></button
+            ><button id="cancel-button" class="text-button" hidden>
+              Cancel conversion
+            </button>
+            <p class="conversion-note">
+              Conversions preserve content where possible. Complex layouts may
+              change.
+            </p>
+          </div>
+        </div>
+        <div
+          id="status"
+          class="status"
+          role="status"
+          aria-live="polite"
+          hidden
+        ></div>
+        <div id="results" class="results" hidden>
+          <div class="results-heading">
+            <h3>Your file is ready</h3>
+            <span>Download before changing your file or format.</span>
+          </div>
+          <div id="downloads"></div>
+          <ul id="warnings"></ul>
+        </div>
+      </section>
+      <div class="quick-conversions">
+        <span>Popular conversions</span
+        ><button data-from="pdf" data-to="md">
+          PDF <span aria-hidden="true">→</span> Markdown</button
+        ><button data-from="pdf" data-to="docx">
+          PDF <span aria-hidden="true">→</span> Word</button
+        ><button data-from="docx" data-to="pdf">
+          Word <span aria-hidden="true">→</span> PDF</button
+        ><button data-from="png" data-to="jpg">
+          PNG <span aria-hidden="true">→</span> JPG
+        </button>
+      </div>
+      <section id="formats" class="formats-section">
+        <div class="section-title">
+          <h2>Ten formats. Less friction.</h2>
+          <p>The everyday essentials, in one place.</p>
+        </div>
+        <div id="format-list" class="format-list"></div>
+        <p class="formats-footnote">
+          Select a format to see its supported conversions. Word means .docx;
+          older .doc files are not supported.
+        </p>
+        <div id="format-detail" class="format-detail" aria-live="polite">
+          PDF, Word, Markdown, plain text, and HTML convert between one another.
+        </div>
+      </section>
+      <section id="how-it-works" class="how-section">
+        <div>
+          <h2>From this.<br />To that. Done.</h2>
+          <p>No software to install. No files to send away.</p>
+        </div>
+        <ol>
+          <li>
+            <strong>Choose your file</strong>
+            <p>Drop a file into the workspace or browse your device.</p>
+          </li>
+          <li>
+            <strong>Pick its next format</strong>
+            <p>Choose from the outputs available for your file type.</p>
+          </li>
+          <li>
+            <strong>Make it yours</strong>
+            <p>Convert locally, then download the result.</p>
+          </li>
+        </ol>
+      </section>
+      <section class="faq-section">
+        <h2>A few things to know</h2>
+        <details>
+          <summary>Will my document look exactly the same?</summary>
+          <p>
+            Document conversions focus on editable text and basic structure.
+            Fonts, columns, tables, embedded images and exact page layout may
+            change or be omitted. PDF-to-Word and PDF-to-Markdown extract
+            selectable text. PDF-to-image exports preserve the rendered
+            appearance of each page.
+          </p>
+        </details>
+        <details>
+          <summary>Can I convert a scanned or password-protected PDF?</summary>
+          <p>
+            Scanned PDFs can be exported as images, but text recognition (OCR)
+            is not included. Text conversions require selectable text.
+            Password-protected PDFs must be unlocked before conversion.
+          </p>
+        </details>
+        <details>
+          <summary>What happens to my files?</summary>
+          <p>
+            Your files are processed in this browser and are never uploaded.
+            Files and results are held in memory until you remove them, choose
+            another file or output format, or leave this page. Cloudflare serves
+            the app and receives normal website requests, but no file contents.
+            There are no analytics or third-party conversion services.
+          </p>
+        </details>
+        <details>
+          <summary>Are there any conversion limits?</summary>
+          <p>
+            Files can be up to 20 MB. Text is limited to one million characters,
+            images to 24 megapixels, and PDFs to 200 pages for text or 30 pages
+            for image export. CSV and JSON tables support up to 20,000 rows and
+            200 columns. JSON must be an array of objects. PDF generation
+            supports Latin, Greek and Cyrillic text; unsupported characters
+            produce an error rather than a broken file. Use a current browser
+            for best results.
+          </p>
+        </details>
+      </section>
+    </main>
+    <footer>
+      <a class="footer-brand" href="/">File Converter.</a>
+      <p>A little less file friction.</p>
+      <a
+        href="https://github.com/jared0565/File-Converter"
+        target="_blank"
+        rel="noopener noreferrer"
+        >View source</a
+      >
+    </footer>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

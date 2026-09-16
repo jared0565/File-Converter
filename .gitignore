@@ -1,0 +1,19 @@
+# Graphite
+graph-out/
+**/.cache/graphite/
+**/.graphite/
+.graphite-daemon/
+.githooks/
+.aramid/
+.graphite*
+.cache/
+.agent-prompt-check.json
+node_modules/
+dist/
+.wrangler/
+test-results/
+playwright-report/
+.env
+.env.*
+!.env.example
+.dev.vars

@@ -1,2 +1,63 @@
-# File-Converter
-Convert file from one format to another format
+# File Converter
+
+A private, browser-based converter hosted on Cloudflare Workers Static Assets. File contents never leave the device. No account, storage backend, API key, or paid conversion provider is required.
+
+## Supported formats
+
+Exactly ten formats: **PDF, DOCX, Markdown, TXT, HTML, CSV, JSON, JPG, PNG, WebP**. This is a practical selection of common document, data, and image formats, not a measured popularity ranking. JPEG/Markdown/HTM filename aliases count as the same formats.
+
+| Input                     | Outputs                                     |
+| ------------------------- | ------------------------------------------- |
+| PDF                       | DOCX, Markdown, TXT, HTML, JPG, PNG, WebP   |
+| DOCX, Markdown, TXT, HTML | Other formats in this group, plus PDF       |
+| CSV                       | JSON, TXT, Markdown, HTML, PDF, DOCX        |
+| JSON                      | CSV, TXT, Markdown, HTML, PDF, DOCX         |
+| JPG, PNG, WebP            | Other image formats in this group, plus PDF |
+
+44 supported conversion paths. Output selectors expose only compatible formats.
+
+## Run and validate
+
+Node.js 22.13+ or 24+; current Chrome, Edge, Firefox, or Safari. Tests use installed Google Chrome.
+
+```sh
+npm ci
+npm run dev
+npm run build
+npm test
+npm audit
+```
+
+Before installing packages in this repository, follow the package validator requirement in AGENTS.md. Versions are pinned in package-lock.json. Playwright integration tests cover every offered path, actual PDF/DOCX round trips, images, CSV formula protection, malformed inputs, resource limits, HTML sanitization and desktop/mobile UI behavior.
+
+## Deploy
+
+```sh
+npx wrangler whoami
+npm run deploy
+```
+
+If unauthenticated, run `npx wrangler login` locally. CI can use a least-privilege `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` stored as secrets. Never commit tokens. The Wrangler configuration publishes only `dist/`, not source, tests, local tool configuration or credentials. Roll back with `npx wrangler rollback` after inspecting `npx wrangler deployments list`.
+
+## Architecture and privacy
+
+TypeScript/Vite serves a small initial interface; format engines load on demand. PDF.js reads/renders PDFs, Mammoth reads Word, docx writes Word, pdf-lib/fontkit writes PDF, and the browser decodes/encodes images. DOMPurify strips active HTML content. Fonts and libraries are served from the same deployment. There is no analytics, file upload endpoint, localStorage, or service worker. Cloudflare receives normal site requests and request metadata, but no file contents.
+
+Source adapters produce sanitized document blocks or tabular rows, then output adapters serialize supported targets. Download object URLs are revoked on file/format changes, removal, or page exit. Only one conversion runs at a time. Cancel discards results and waits for ongoing parsing to finish; it does not forcibly interrupt synchronous library code.
+
+`public/_headers` supplies CSP, frame restrictions, MIME sniffing protection, referrer restrictions and permissions policy. User content is never injected into the visible app. HTML downloads contain sanitized static content and a restrictive CSP. CSV exports escape formula-like cells. No server authentication, tenant database, or conversion API exists, so those attack surfaces are absent.
+
+## Fidelity and limits
+
+- Document conversions preserve text/basic structure, not exact layout. Embedded media, styling, comments, and original pagination may be omitted. DOCX output retains headings but not inline emphasis. Tables become text rows in PDF/DOCX/TXT.
+- PDF extraction needs selectable text. No OCR. Scanned-only PDFs can export to images. Mixed PDFs report omitted textless pages. Password-protected PDFs must be unlocked first.
+- PDF image export creates one download per page. JPEG uses a white background; animated images export their first frame. Image-to-PDF uses A4 with margins.
+- PDF generation uses bundled Noto Sans (Latin, Greek and Cyrillic coverage). Unsupported glyphs produce an error; use DOCX/HTML to preserve other scripts.
+- Inputs: 20 MB. Text: one million characters. DOCX archive: 2,000 entries, 40 MB total expanded data, 20 MB per entry, bounded compression ratios. ZIP64/encryption are unsupported.
+- Images: 24 megapixels. PDF text: 200 pages; PDF images: 30 pages and 100 MB combined output. Tables: 20,000 data rows and 200 columns.
+- CSV's first row must have unique, nonempty headers. CSV-to-JSON preserves strings. JSON must be a nonempty array of objects; nested values become JSON text and missing/null cells become empty strings.
+- Parsing uses device memory; file limits reduce resource risk but are not a hard process-memory sandbox. Large hostile files can still stress the tab. Browser-native image decoding occurs before dimensions can be inspected.
+
+## Licenses
+
+Project license: LICENSE. Noto Sans is distributed under SIL Open Font License in `public/fonts/LICENSE.txt`; obtained from the official notofonts/noto-fonts repository. Inter is distributed by @fontsource/inter under OFL. Conversion dependencies retain their respective licenses in installed packages.

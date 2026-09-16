@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-16T00:00:00Z",
+  "title": "Design System: File Converter",
+  "extensions": {
+    "shadows": [],
+    "motion": [
+      {
+        "name": "control-transition",
+        "value": "0.2s ease",
+        "purpose": "Background changes on primary buttons; background and border changes on upload target. Disabled by the reduced-motion media query."
+      }
+    ],
+    "breakpoints": [{ "name": "mobile", "value": "700px" }],
+    "focus": { "outline": "3px solid #9a6221", "offset": "5px" },
+    "sourceFiles": ["src/style.css", "index.html", "src/main.ts"],
+    "extraction": "Observed implementation only; no new brand narrative or synthetic color ramps."
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main conversion action.",
+      "html": "<button class=\"ds-primary\">Convert file</button>",
+      "css": ".ds-primary{font:600 13px Inter,sans-serif;border:0;border-radius:7px;background:var(--green,#174c3c);color:white;min-height:48px;width:100%;cursor:pointer;transition:background .2s}.ds-primary:hover{background:#25644b}.ds-primary:disabled{background:#e5eade;color:#5b6954;cursor:not-allowed}.ds-primary:focus-visible{outline:3px solid #9a6221;outline-offset:5px}@media(prefers-reduced-motion:reduce){.ds-primary{transition:none}}"
+    },
+    {
+      "name": "Output Select",
+      "kind": "input",
+      "description": "Native output selector with visible label.",
+      "html": "<label class=\"ds-label\" for=\"ds-output\">Convert to</label><select class=\"ds-select\" id=\"ds-output\"><option>PDF (.pdf)</option><option>Word (.docx)</option></select>",
+      "css": ".ds-label{display:block;font:600 12px Inter,sans-serif;margin-bottom:10px}.ds-select{width:100%;padding:15px 36px 15px 14px;border:1px solid #cdd5c9;border-radius:7px;background:white;color:#26342f;font:13px Inter,sans-serif}.ds-select:disabled{color:#697466;background:#f9faf7}.ds-select:focus-visible{outline:3px solid #9a6221;outline-offset:5px}"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "description": "Plain text section navigation.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Preview navigation\"><a href=\"#formats\">Formats</a><a href=\"#how-it-works\">How it works</a></nav>",
+      "css": ".ds-nav{display:flex;gap:30px;align-items:center;font:500 13px Inter,sans-serif}.ds-nav a{color:#26342f;text-decoration:none;text-underline-offset:4px}.ds-nav a:hover{text-decoration:underline}.ds-nav a:focus-visible{outline:3px solid #9a6221;outline-offset:5px}"
+    },
+    {
+      "name": "Conversion Shortcut",
+      "kind": "chip",
+      "description": "Compact shortcut selecting a conversion pair.",
+      "html": "<button class=\"ds-shortcut\">PDF <span aria-hidden=\"true\">→</span> Markdown</button>",
+      "css": ".ds-shortcut{font:10px Inter,sans-serif;border:1px solid var(--line,#dce2d9);border-radius:5px;background:transparent;padding:7px 9px;color:#41523f;cursor:pointer}.ds-shortcut span{margin:0 5px}.ds-shortcut:hover{background:#eaf1e2}.ds-shortcut:focus-visible{outline:3px solid #9a6221;outline-offset:5px}"
+    },
+    {
+      "name": "Workspace",
+      "kind": "card",
+      "refersTo": "workspace",
+      "description": "Bordered surface containing the conversion flow.",
+      "html": "<section class=\"ds-workspace\" aria-label=\"File converter\"><header class=\"ds-workspace-head\"><h2>Let’s convert your file</h2><span>20 MB maximum</span></header><div class=\"ds-workspace-body\">Choose a file to begin.</div></section>",
+      "css": ".ds-workspace{background:var(--surface,#fff);border:1px solid var(--line,#dce2d9);border-radius:var(--radius,14px);overflow:hidden;font:12px Inter,sans-serif;color:#26342f}.ds-workspace-head{padding:23px 28px;border-bottom:1px solid var(--line,#dce2d9);display:flex;align-items:center;justify-content:space-between;gap:16px}.ds-workspace-head h2{font-size:16px;letter-spacing:-.02em;margin:0;font-weight:600}.ds-workspace-head span{font-size:11px;color:var(--muted,#64706a)}.ds-workspace-body{padding:28px}"
+    }
+  ],
+  "narrative": {
+    "overview": "The implemented interface is a restrained green and white workspace. This document extracts the existing implementation; it does not assert a user-approved brand metaphor. The upload area and output controls carry the main visual emphasis, followed by formats and explanatory content.",
+    "dos": [
+      "Do retain visible keyboard focus and the upload control's accessible button semantics.",
+      "Do preserve the distinction between actions, supporting text and conversion limitations.",
+      "Do let formats and downloads wrap at narrow widths."
+    ],
+    "donts": [
+      "Don't describe this extracted visual system as a user-supplied brand.",
+      "Don't imply exact document layout preservation in interface copy."
+    ]
+  }
+}
