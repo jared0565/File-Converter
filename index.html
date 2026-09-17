@@ -21,7 +21,8 @@
         >File Converter<span class="brand-dot">.</span></a
       >
       <nav aria-label="Main navigation">
-        <a href="#formats">Formats</a><a href="#how-it-works">How it works</a
+        <a href="#library">Saved files</a><a href="#formats">Formats</a
+        ><a href="#how-it-works">How it works</a
         ><a
           href="https://github.com/jared0565/File-Converter"
           target="_blank"
@@ -87,6 +88,14 @@
                 </svg>
               </button>
             </div>
+            <button
+              type="button"
+              class="secondary-button selected-preview"
+              id="preview-selected"
+              hidden
+            >
+              Read selected file
+            </button>
             <div class="local-note">
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <rect x="5" y="10" width="14" height="11" rx="2" />
@@ -134,11 +143,86 @@
         <div id="results" class="results" hidden>
           <div class="results-heading">
             <h3>Your file is ready</h3>
-            <span>Download before changing your file or format.</span>
+            <span>Read, download, or save your converted file.</span>
           </div>
           <div id="downloads"></div>
           <ul id="warnings"></ul>
         </div>
+      </section>
+      <section
+        id="reader"
+        class="reader-panel"
+        aria-labelledby="reader-title"
+        hidden
+      >
+        <div class="panel-heading">
+          <div>
+            <h2 id="reader-title" tabindex="-1">File reader</h2>
+            <p id="reader-note" role="status" aria-live="polite"></p>
+          </div>
+          <button id="reader-close" type="button" class="secondary-button">
+            Close reader
+          </button>
+        </div>
+        <div id="reader-controls" class="reader-controls" hidden>
+          <button id="reader-previous" type="button" class="secondary-button">
+            Previous page</button
+          ><span id="reader-page" aria-live="polite"></span
+          ><button id="reader-next" type="button" class="secondary-button">
+            Next page</button
+          ><label for="reader-zoom">Render size</label
+          ><select id="reader-zoom">
+            <option value="1.25">Standard</option>
+            <option value="2">Large</option>
+            <option value="3">Extra large</option>
+          </select>
+        </div>
+        <div
+          id="reader-content"
+          class="reader-content"
+          tabindex="0"
+          aria-label="File contents"
+        ></div>
+      </section>
+      <section
+        id="library"
+        class="library-panel"
+        aria-labelledby="library-title"
+      >
+        <div class="panel-heading">
+          <div>
+            <h2 id="library-title">Your saved files</h2>
+            <p id="library-usage">Loading library…</p>
+          </div>
+          <button type="button" id="library-refresh" class="secondary-button">
+            Refresh library
+          </button>
+        </div>
+        <p class="library-description">
+          Saved on this device, in this browser profile. Files remain after
+          reloads and browser restarts. No cloud sync or account; anyone using
+          this browser profile can access them.
+        </p>
+        <p id="library-status" role="status" aria-live="polite"></p>
+        <p id="library-empty" class="library-empty">
+          No saved files yet. Convert a file, then choose
+          <strong>Save to library</strong>.
+        </p>
+        <ul
+          id="library-files"
+          class="library-files"
+          aria-label="Saved files"
+        ></ul>
+        <div class="persistence-row">
+          <button type="button" id="protect-storage" class="secondary-button">
+            Request persistent storage
+          </button>
+          <p id="persistence-status">Checking storage protection…</p>
+        </div>
+        <p class="library-description">
+          Clearing site data or ending a private-browsing session can remove
+          saved files. Download important files as a backup.
+        </p>
       </section>
       <div class="quick-conversions">
         <span>Popular conversions</span
@@ -210,10 +294,13 @@
           <summary>What happens to my files?</summary>
           <p>
             Your files are processed in this browser and are never uploaded.
-            Files and results are held in memory until you remove them, choose
-            another file or output format, or leave this page. Cloudflare serves
-            the app and receives normal website requests, but no file contents.
-            There are no analytics or third-party conversion services.
+            Unsaved files and results are held in memory until you remove them,
+            choose another file or output format, or leave this page. Explicitly
+            saved files remain in this browser profile until deleted or site
+            data is cleared. They are not uploaded or synced across devices.
+            Cloudflare serves the app and receives normal website requests, but
+            no file contents. There are no analytics or third-party conversion
+            services.
           </p>
         </details>
         <details>

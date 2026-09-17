@@ -1,6 +1,6 @@
 # File Converter
 
-A private, browser-based converter hosted on Cloudflare Workers Static Assets. File contents never leave the device. No account, storage backend, API key, or paid conversion provider is required.
+A private, browser-based converter hosted on Cloudflare Workers Static Assets. File contents never leave the device. No account, cloud storage backend, API key, or paid conversion provider is required. Converted files can be saved explicitly in a device-local library.
 
 ## Supported formats
 
@@ -45,7 +45,7 @@ TypeScript/Vite serves a small initial interface; format engines load on demand.
 
 Source adapters produce sanitized document blocks or tabular rows, then output adapters serialize supported targets. Download object URLs are revoked on file/format changes, removal, or page exit. Only one conversion runs at a time. Cancel discards results and waits for ongoing parsing to finish; it does not forcibly interrupt synchronous library code.
 
-`public/_headers` supplies CSP, frame restrictions, MIME sniffing protection, referrer restrictions and permissions policy. User content is never injected into the visible app. HTML downloads contain sanitized static content and a restrictive CSP. CSV exports escape formula-like cells. No server authentication, tenant database, or conversion API exists, so those attack surfaces are absent.
+`public/_headers` supplies CSP, frame restrictions, MIME sniffing protection, referrer restrictions and permissions policy. Reader documents are inserted only after allowlist sanitization; text and table cells use textContent. Scripts, styles, links, embeds and user attributes are removed before rendering. HTML downloads contain sanitized static content and a restrictive CSP. CSV exports escape formula-like cells. No server authentication, tenant database, or conversion API exists, so those attack surfaces are absent.
 
 ## Fidelity and limits
 
@@ -61,3 +61,13 @@ Source adapters produce sanitized document blocks or tabular rows, then output a
 ## Licenses
 
 Project license: LICENSE. Noto Sans is distributed under SIL Open Font License in `public/fonts/LICENSE.txt`; obtained from the official notofonts/noto-fonts repository. Inter is distributed by @fontsource/inter under OFL. Conversion dependencies retain their respective licenses in installed packages.
+
+## Native readers and saved files
+
+Use **Read selected file** before converting, **Read file** beside a converted download, or **Read** in the saved library. PDFs render one page at a time with previous/next controls, render-size selection, and a selectable text disclosure. Images retain their aspect ratio. Word, Markdown and HTML have sanitized reading views; Word previews retain text and tables but omit images and exact layout. Plain text and formatted JSON support copying. CSV previews show the first 500 data rows and up to 200 columns, with truncation disclosed. The JSON reader accepts any valid JSON value, independent of the converter's array-of-objects restriction.
+
+**Save to library** stores a converted Blob and its metadata in IndexedDB on the current HTTPS origin. The library survives page reloads and browser restarts in the same browser profile. It does not sync across devices. Anyone using that profile can access saved files; the application does not add account authentication or application-level encryption. Browser/OS storage protections apply. Clearing site data or closing a private-browsing session may remove files. Browser eviction remains possible unless the browser grants the user-initiated persistent-storage request; even then clearing site data removes the library. Keep downloaded backups.
+
+Storage schema v1 uses separate metadata and Blob stores. Saves and deletes commit both stores in one transaction. SHA-256 content plus filename identifies saves, so retries and concurrent tab saves do not duplicate or overwrite files with other names. Limits: 200 files, 200 MB total, 100 MB per saved file. Quota/permission failures preserve existing files and leave downloads available. Metadata listing avoids loading all Blob contents. BroadcastChannel refreshes other open tabs after writes; a manual refresh is also available. A blocked database upgrade fails with recovery guidance. Future schema changes must increment the version and migrate existing stores without deleting user data.
+
+Tests cover every reader, PDF navigation, sanitization/no external resource loads, explicit saving, reload and browser-restart persistence, concurrent-save deduplication, deletion, and storage denial. `node scripts/smoke-deployment.mjs https://file-converter.bmorris0565.workers.dev` exercises the deployed converter; browser integration tests exercise storage and previews.

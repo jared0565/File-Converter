@@ -36,7 +36,7 @@ const plainHtml = (text: string) =>
     .split(/\n\s*\n/)
     .map((p) => `<p>${escape(p).replace(/\n/g, "<br>")}</p>`)
     .join("");
-function clean(html: string): string {
+export function clean(html: string): string {
   return DOMPurify.sanitize(html, {
     ALLOWED_TAGS: [
       "h1",
@@ -73,17 +73,15 @@ function clean(html: string): string {
 function blocksFrom(html: string): Block[] {
   const root = new DOMParser().parseFromString(clean(html), "text/html").body;
   root.querySelectorAll("br").forEach((br) => br.replaceWith("\n"));
-  root
-    .querySelectorAll("tr")
-    .forEach((row) =>
-      row.replaceWith(
-        Object.assign(document.createElement("p"), {
-          textContent: [...row.children]
-            .map((cell) => cell.textContent ?? "")
-            .join(" | "),
-        }),
-      ),
-    );
+  root.querySelectorAll("tr").forEach((row) =>
+    row.replaceWith(
+      Object.assign(document.createElement("p"), {
+        textContent: [...row.children]
+          .map((cell) => cell.textContent ?? "")
+          .join(" | "),
+      }),
+    ),
+  );
   const blocks: Block[] = [];
   function visit(node: Node) {
     if (node.nodeType === Node.TEXT_NODE) {
@@ -102,7 +100,7 @@ function blocksFrom(html: string): Block[] {
   root.childNodes.forEach(visit);
   return blocks;
 }
-async function textOf(file: File): Promise<string> {
+export async function textOf(file: File): Promise<string> {
   const text = new TextDecoder("utf-8", { fatal: true })
     .decode(await file.arrayBuffer())
     .replace(/^\uFEFF/, "");
@@ -120,7 +118,7 @@ function artifact(name: string, target: Format, data: BlobPart): Artifact {
     blob: new Blob([data], { type: formats[target].mime }),
   };
 }
-async function pdfDocument(file: File) {
+export async function pdfDocument(file: File) {
   const pdfjs = await import("pdfjs-dist");
   const worker = await import("pdfjs-dist/build/pdf.worker.min.mjs?url");
   pdfjs.GlobalWorkerOptions.workerSrc = worker.default;
@@ -491,18 +489,16 @@ export async function convert(
         sections: [
           {
             children: blocks.flatMap((block) =>
-              block.text
-                .split("\n")
-                .map(
-                  (text) =>
-                    new Paragraph({
-                      text,
-                      heading: block.heading
-                        ? headings[block.heading - 1]
-                        : undefined,
-                      spacing: { after: 160 },
-                    }),
-                ),
+              block.text.split("\n").map(
+                (text) =>
+                  new Paragraph({
+                    text,
+                    heading: block.heading
+                      ? headings[block.heading - 1]
+                      : undefined,
+                    spacing: { after: 160 },
+                  }),
+              ),
             ),
           },
         ],

@@ -1,3 +1,5 @@
+import { previewButton, saveButton } from "./library";
+import { openReader, closeReader } from "./reader";
 import "@fontsource/inter/latin-400.css";
 import "@fontsource/inter/latin-500.css";
 import "@fontsource/inter/latin-600.css";
@@ -77,6 +79,8 @@ function choose(file: File) {
   try {
     const source = validateFile(file);
     selected = file;
+    closeReader(false);
+    $("preview-selected").hidden = false;
     clearResults();
     status("");
     $("file-name").textContent = file.name;
@@ -137,6 +141,8 @@ select.addEventListener("change", () => {
 });
 $("remove-file").addEventListener("click", () => {
   selected = undefined;
+  closeReader(false);
+  $("preview-selected").hidden = true;
   clearResults();
   status("");
   $("selected-file").hidden = true;
@@ -175,7 +181,10 @@ button.addEventListener("click", async () => {
       link.download = resultFile.name;
       link.className = "download-link";
       link.textContent = `Download ${resultFile.name}`;
-      $("downloads").append(link);
+      const row = document.createElement("div");
+      row.className = "result-file";
+      row.append(link, previewButton(resultFile), saveButton(resultFile));
+      $("downloads").append(row);
     }
     for (const warning of result.warnings) {
       const li = document.createElement("li");
@@ -242,3 +251,11 @@ document.querySelectorAll<HTMLButtonElement>("[data-from]").forEach((item) =>
   }),
 );
 window.addEventListener("pagehide", () => clearResults());
+
+$("preview-selected").addEventListener("click", () => {
+  if (selected)
+    void openReader(
+      { name: selected.name, blob: selected },
+      $("preview-selected"),
+    );
+});

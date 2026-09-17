@@ -1,4 +1,4 @@
-import { chromium } from "@playwright/test";
+import { chromium, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import assert from "node:assert/strict";
 const url = process.argv[2];
@@ -14,7 +14,11 @@ try {
     if (message.type() === "error") errors.push(message.text());
   });
   page.on("request", (request) => {
-    if (request.method() !== "GET" || !request.url().startsWith(url))
+    if (
+      request.method() !== "GET" ||
+      (!request.url().startsWith(url) &&
+        !request.url().startsWith("blob:" + url))
+    )
       unexpectedRequests.push(request.url());
   });
   const response = await page.goto(url);
@@ -26,6 +30,11 @@ try {
     await page
       .locator("#file-input")
       .setInputFiles({ name, mimeType: "application/octet-stream", buffer });
+    await page.locator("#preview-selected").click();
+    await expect(
+      page.locator("#reader-content").locator(":scope > *").first(),
+    ).toBeVisible({ timeout: 30000 });
+    await page.locator("#reader-close").click();
     await page.locator("#output-format").selectOption(target);
     await page.locator("#convert-button").click();
     await page.locator(".download-link").first().waitFor({ timeout: 60000 });
@@ -35,6 +44,16 @@ try {
     assert.equal(await download.failure(), null);
     const output = await readFile(await download.path());
     assert.ok(output.length > 0);
+    await page
+      .getByRole("button", {
+        name: "Read " + download.suggestedFilename(),
+        exact: true,
+      })
+      .click();
+    await expect(
+      page.locator("#reader-content").locator(":scope > *").first(),
+    ).toBeVisible({ timeout: 30000 });
+    await page.locator("#reader-close").click();
     console.log(
       `${name} -> ${download.suggestedFilename()}: ${output.length} bytes`,
     );
@@ -60,10 +79,27 @@ try {
   assert.deepEqual(JSON.parse(json.buffer.toString()), [
     { name: "example", value: "12" },
   ]);
+  await page
+    .getByRole("button", {
+      name: "Save live-data.json to library",
+      exact: true,
+    })
+    .click();
+  await expect(page.locator(".library-row")).toHaveCount(1);
+  await page.reload();
+  await page
+    .getByRole("button", { name: "Read saved live-data.json", exact: true })
+    .click();
+  await expect(page.locator("#reader-content")).toContainText("example");
+  page.once("dialog", (dialog) => dialog.accept());
+  await page
+    .getByRole("button", { name: "Delete saved live-data.json", exact: true })
+    .click();
+  await expect(page.locator(".library-row")).toHaveCount(0);
   assert.deepEqual(errors, [], "Browser errors or CSP violations");
   assert.deepEqual(unexpectedRequests, [], "Unexpected outbound requests");
   console.log(
-    "Live smoke checks passed: headers, document round trip, PDF rendering, images, data, no external requests.",
+    "Live smoke checks passed: headers, document round trip, PDF rendering, images, data, native readers, persistent save/reload/delete, no external requests.",
   );
 } finally {
   await browser.close();

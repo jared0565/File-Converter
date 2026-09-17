@@ -1,6 +1,8 @@
 import { defineConfig } from "vite";
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
+  server: { hmr: mode !== "test" },
   optimizeDeps: {
+    noDiscovery: true,
     include: [
       "pdfjs-dist",
       "mammoth",
@@ -13,4 +15,4 @@ export default defineConfig({
       "papaparse",
     ],
   },
-});
+}));

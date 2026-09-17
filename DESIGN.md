@@ -100,3 +100,5 @@ Navigation uses plain text links with underlined hover states. Format buttons us
 - Do let formats and downloads wrap at narrow widths.
 - Don't describe this extracted visual system as a user-supplied brand.
 - Don't imply exact document layout preservation in interface copy.
+
+Reader and library extensions inherit the workspace border, radius and green action colors. Their header is 20px (18px on mobile), with 12px guidance. Reader content uses 16px prose or 14px monospace for literal text/JSON. Document headings are 30/24/20px. PDF pages fit the available width at the standard render setting; larger renders and tables scroll inside the content region. Library rows wrap actions below metadata on mobile. Secondary controls have a 40px minimum height and retain the existing focus treatment.

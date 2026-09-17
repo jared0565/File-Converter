@@ -17,3 +17,7 @@ General-purpose personal and office use. Ten selected formats: PDF, DOCX, Markdo
 ## Stack
 
 Engineering choice: TypeScript and Vite, static Cloudflare Workers hosting. No file storage or conversion API.
+
+## Reader and library workflows
+
+Users can read all ten supported formats before or after conversion and reopen saved results. Saved files persist locally in IndexedDB in the same browser profile, with explicit saves, downloads and confirmed deletes. Persistence protection is requested by the user and depends on the browser. This is device-local storage, not cloud sync; clearing site data can remove files. Reader layouts prioritize safe readable content over exact Word/HTML fidelity.

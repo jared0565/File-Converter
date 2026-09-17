@@ -5,14 +5,15 @@ export default defineConfig({
   fullyParallel: false,
   workers: 1,
   use: {
-    baseURL: "http://127.0.0.1:5173",
+    baseURL: "http://127.0.0.1:5174",
     ...devices["Desktop Chrome"],
     channel: "chrome",
     screenshot: "only-on-failure",
   },
   webServer: {
-    command: "npm run dev",
-    url: "http://127.0.0.1:5173",
+    command:
+      "node node_modules/vite/bin/vite.js --host 127.0.0.1 --port 5174 --strictPort --mode test",
+    url: "http://127.0.0.1:5174",
     reuseExistingServer: !process.env.CI,
   },
 });

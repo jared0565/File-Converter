@@ -800,3 +800,265 @@ select {
     transition: none !important;
   }
 }
+
+/* Readers and persistent library inherit the existing workspace styling. */
+.reader-panel,
+.library-panel {
+  margin-top: 28px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 24px 28px;
+  scroll-margin-top: 24px;
+}
+.panel-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: start;
+}
+.panel-heading h2 {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.panel-heading > div {
+  min-width: 0;
+}
+.panel-heading p,
+.library-description,
+.persistence-row p {
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--muted);
+  margin: 10px 0 0;
+}
+.secondary-button {
+  border: 1px solid #a8b8a0;
+  background: #f7f9f4;
+  color: var(--green);
+  border-radius: 7px;
+  min-height: 40px;
+  padding: 9px 13px;
+  font-size: 12px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+.secondary-button:hover {
+  background: #eaf1e2;
+}
+.secondary-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.selected-preview {
+  margin-top: 16px;
+  width: 100%;
+}
+.result-file {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+}
+.result-file .download-link {
+  flex: 1;
+}
+.reader-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  font-size: 12px;
+}
+.reader-controls select {
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: white;
+  color: var(--green);
+}
+.reader-content {
+  max-height: 75vh;
+  overflow: auto;
+  margin-top: 20px;
+  border-top: 1px solid var(--line);
+  padding: 22px 0 0;
+  overscroll-behavior: contain;
+}
+.reader-content canvas {
+  display: block;
+  background: white;
+  margin: auto;
+  max-width: none;
+}
+.reader-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: auto;
+}
+.reader-text {
+  font:
+    14px/1.7 ui-monospace,
+    monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin: 0;
+  padding: 16px;
+  background: #f7f9f4;
+}
+.reader-document {
+  font-size: 16px;
+  line-height: 1.8;
+  max-width: 75ch;
+  margin: auto;
+  overflow-wrap: anywhere;
+}
+.reader-document h1 {
+  font-size: 30px;
+}
+.reader-document h2 {
+  font-size: 24px;
+}
+.reader-document h3 {
+  font-size: 20px;
+}
+.reader-document pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.reader-content table {
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 100%;
+}
+.reader-content th,
+.reader-content td {
+  border: 1px solid var(--line);
+  padding: 10px;
+  text-align: left;
+  vertical-align: top;
+  max-width: 400px;
+  overflow-wrap: anywhere;
+}
+.reader-content th {
+  background: #edf2e7;
+}
+.reader-content caption {
+  text-align: left;
+  font-weight: 600;
+  padding-bottom: 14px;
+}
+.library-files {
+  list-style: none;
+  padding: 0;
+  margin: 18px 0;
+}
+.library-row {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--line);
+  padding: 18px 0;
+}
+.library-row:last-child {
+  border-bottom: 1px solid var(--line);
+}
+.library-row .file-info strong {
+  font-size: 14px;
+}
+.library-row .file-info span {
+  font-size: 11px;
+}
+.file-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.library-empty {
+  background: #f7f9f4;
+  padding: 24px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.persistence-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.persistence-row p {
+  margin: 0;
+}
+#library-status {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--green);
+  overflow-wrap: anywhere;
+}
+#library-status:empty {
+  display: none;
+}
+#library-status.error {
+  color: #8a352b;
+}
+@media (max-width: 700px) {
+  .reader-panel,
+  .library-panel {
+    padding: 20px;
+  }
+  .panel-heading {
+    flex-wrap: wrap;
+  }
+  .panel-heading h2 {
+    font-size: 18px;
+  }
+  .library-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+  .persistence-row {
+    flex-direction: column;
+    align-items: start;
+  }
+  .result-file .download-link {
+    flex-basis: 100%;
+  }
+  .site-header nav {
+    gap: 10px;
+  }
+  .site-header nav a:nth-child(2) {
+    display: none;
+  }
+  .reader-content {
+    max-height: 65vh;
+  }
+  .reader-controls {
+    gap: 8px;
+  }
+  .reader-controls label {
+    flex-basis: 100%;
+  }
+}
+.reader-content canvas.reader-fit {
+  max-width: 100%;
+  height: auto;
+}
+@media (max-width: 700px) {
+  .brand {
+    white-space: nowrap;
+  }
+  .site-header nav a[href="#how-it-works"],
+  .site-header nav a[href="#formats"] {
+    display: none;
+  }
+  .site-header nav {
+    gap: 14px;
+  }
+}
