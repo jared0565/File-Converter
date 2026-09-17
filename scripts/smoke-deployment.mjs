@@ -21,11 +21,16 @@ try {
     )
       unexpectedRequests.push(request.url());
   });
+  await page.emulateMedia({ colorScheme: "light" });
   const response = await page.goto(url);
   assert.equal(response.status(), 200);
   const headers = response.headers();
   assert.ok(headers["content-security-policy"].includes("default-src 'none'"));
   assert.equal(headers["x-content-type-options"], "nosniff");
+  await page.getByRole("button", { name: "Dark mode", exact: true }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await page.reload();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   async function convert(name, buffer, target) {
     await page
       .locator("#file-input")

@@ -1,7 +1,7 @@
 :root {
   font-family: Inter, sans-serif;
-  color: #26342f;
-  background: #fafbf8;
+  color: var(--text);
+  background: var(--page);
   font-synthesis: none;
   --green: #174c3c;
   --muted: #64706a;
@@ -9,7 +9,58 @@
   --surface: #fff;
   --radius: 14px;
   color-scheme: light;
+
+  --text: #26342f;
+  --page: #fafbf8;
+  --focus: #9a6221;
+  --brand-accent: #568447;
+  --subtle: #f7f9f4;
+  --drop-border: #9faa98;
+  --text-secondary: #34463c;
+  --hover: #eaf1e2;
+  --control-line: #a8b8a0;
+  --action-bg: #174c3c;
+  --action-hover: #25644b;
+  --disabled-bg: #e5eade;
+  --disabled-text: #5b6954;
+  --tint: #edf2e7;
+  --success-bg: #edf4e8;
+  --error-bg: #fdf0ed;
+  --error-text: #8a352b;
+  --image-accent: #82592d;
+  --data-accent: #435e88;
+  --step-text: #617351;
+  --scrollbar: #a1b298;
 }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --text: #e6eee8;
+  --page: #121a16;
+  --surface: #1b2620;
+  --green: #9ed9b9;
+  --muted: #adb9b1;
+  --line: #3b4b41;
+  --focus: #e8b970;
+  --brand-accent: #a6cc8b;
+  --subtle: #202e25;
+  --drop-border: #789284;
+  --text-secondary: #c5d6cb;
+  --hover: #2b3e30;
+  --control-line: #789284;
+  --action-bg: #236447;
+  --action-hover: #2b7654;
+  --disabled-bg: #303e34;
+  --disabled-text: #aebcae;
+  --tint: #293d30;
+  --success-bg: #233b2a;
+  --error-bg: #462825;
+  --error-text: #ffc2b8;
+  --image-accent: #e9c18d;
+  --data-accent: #adc8ff;
+  --step-text: #baccae;
+  --scrollbar: #789284;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -44,7 +95,7 @@ button:focus-visible,
 a:focus-visible,
 select:focus-visible,
 summary:focus-visible {
-  outline: 3px solid #9a6221;
+  outline: 3px solid var(--focus);
   outline-offset: 5px;
 }
 ::selection {
@@ -80,7 +131,7 @@ svg {
   top: -80px;
   left: 20px;
   padding: 12px;
-  background: white;
+  background: var(--surface);
   z-index: 10;
 }
 .skip-link:focus {
@@ -112,7 +163,7 @@ svg {
 }
 .brand-dot {
   margin-left: -9px;
-  color: #568447;
+  color: var(--brand-accent);
 }
 .site-header nav {
   display: flex;
@@ -209,15 +260,15 @@ main {
 }
 .drop-zone {
   width: 100%;
-  background: #f7f9f4;
-  border: 1px dashed #9faa98;
+  background: var(--subtle);
+  border: 1px dashed var(--drop-border);
   border-radius: 10px;
   min-height: 228px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  color: #34463c;
+  color: var(--text-secondary);
   padding: 20px;
   transition:
     background 0.2s,
@@ -225,8 +276,8 @@ main {
 }
 .drop-zone:hover,
 .drop-zone.dragging {
-  background: #eaf1e2;
-  border-color: #174c3c;
+  background: var(--hover);
+  border-color: var(--green);
 }
 .upload-icon {
   height: 46px;
@@ -300,16 +351,16 @@ main {
 .select-wrap select {
   width: 100%;
   padding: 15px 36px 15px 14px;
-  border: 1px solid #cdd5c9;
+  border: 1px solid var(--control-line);
   border-radius: 7px;
   appearance: none;
-  background: white;
-  color: #26342f;
+  background: var(--surface);
+  color: var(--text);
   font-size: 13px;
 }
 .select-wrap select:disabled {
-  color: #697466;
-  background: #f9faf7;
+  color: var(--muted);
+  background: var(--subtle);
 }
 .format-help {
   font-size: 11px;
@@ -321,7 +372,7 @@ main {
 .primary-button {
   border: 0;
   border-radius: 7px;
-  background: var(--green);
+  background: var(--action-bg);
   color: white;
   min-height: 48px;
   display: flex;
@@ -333,11 +384,11 @@ main {
   transition: background 0.2s;
 }
 .primary-button:hover {
-  background: #25644b;
+  background: var(--action-hover);
 }
 .primary-button:disabled {
-  background: #e5eade;
-  color: #5b6954;
+  background: var(--disabled-bg);
+  color: var(--disabled-text);
 }
 .primary-button svg {
   width: 18px;
@@ -367,7 +418,7 @@ main {
 .file-badge {
   font-size: 10px;
   font-weight: 700;
-  background: #edf2e7;
+  background: var(--tint);
   color: var(--green);
   padding: 13px 9px;
   border-radius: 5px;
@@ -399,15 +450,15 @@ main {
 }
 .status {
   padding: 16px 28px;
-  background: #edf4e8;
+  background: var(--success-bg);
   border-top: 1px solid var(--line);
   font-size: 13px;
   line-height: 1.6;
   overflow-wrap: anywhere;
 }
 .status.error {
-  background: #fdf0ed;
-  color: #8a352b;
+  background: var(--error-bg);
+  color: var(--error-text);
 }
 .results {
   padding: 24px 28px;
@@ -435,7 +486,7 @@ main {
 }
 .download-link {
   border-radius: 6px;
-  background: var(--green);
+  background: var(--action-bg);
   color: white;
   padding: 12px 17px;
   font-size: 12px;
@@ -444,7 +495,7 @@ main {
   max-width: 100%;
 }
 .download-link:hover {
-  background: #25644b;
+  background: var(--action-hover);
 }
 #warnings {
   margin: 16px 0 0;
@@ -472,10 +523,10 @@ main {
   border-radius: 5px;
   background: transparent;
   padding: 7px 9px;
-  color: #41523f;
+  color: var(--text-secondary);
 }
 .quick-conversions button:hover {
-  background: #eaf1e2;
+  background: var(--hover);
 }
 .quick-conversions button span {
   margin: 0 5px;
@@ -522,21 +573,21 @@ main {
 .format-item strong {
   font-size: 13px;
   font-weight: 600;
-  color: #375d4a;
+  color: var(--green);
 }
 .format-item span {
   font-size: 9px;
   color: var(--muted);
 }
 .format-item.image strong {
-  color: #82592d;
+  color: var(--image-accent);
 }
 .format-item.data strong {
-  color: #435e88;
+  color: var(--data-accent);
 }
 .format-item:hover,
 .format-item.selected {
-  background: #edf2e7;
+  background: var(--tint);
 }
 .formats-footnote {
   font-size: 10px;
@@ -592,9 +643,9 @@ main {
   position: absolute;
   left: 0;
   top: 0;
-  color: #617351;
+  color: var(--step-text);
   font-size: 12px;
-  border: 1px solid #bdc8b1;
+  border: 1px solid var(--control-line);
   border-radius: 50%;
   width: 23px;
   height: 23px;
@@ -653,7 +704,7 @@ footer > a:last-child {
   text-decoration: none;
 }
 body {
-  scrollbar-color: #a1b298 #fafbf8;
+  scrollbar-color: var(--scrollbar) var(--page);
 }
 input,
 select {
@@ -836,8 +887,8 @@ select {
   margin: 10px 0 0;
 }
 .secondary-button {
-  border: 1px solid #a8b8a0;
-  background: #f7f9f4;
+  border: 1px solid var(--control-line);
+  background: var(--subtle);
   color: var(--green);
   border-radius: 7px;
   min-height: 40px;
@@ -847,7 +898,7 @@ select {
   flex-shrink: 0;
 }
 .secondary-button:hover {
-  background: #eaf1e2;
+  background: var(--hover);
 }
 .secondary-button:disabled {
   opacity: 0.6;
@@ -879,7 +930,7 @@ select {
   padding: 8px;
   border: 1px solid var(--line);
   border-radius: 5px;
-  background: white;
+  background: var(--surface);
   color: var(--green);
 }
 .reader-content {
@@ -910,7 +961,7 @@ select {
   overflow-wrap: anywhere;
   margin: 0;
   padding: 16px;
-  background: #f7f9f4;
+  background: var(--subtle);
 }
 .reader-document {
   font-size: 16px;
@@ -947,7 +998,7 @@ select {
   overflow-wrap: anywhere;
 }
 .reader-content th {
-  background: #edf2e7;
+  background: var(--tint);
 }
 .reader-content caption {
   text-align: left;
@@ -982,7 +1033,7 @@ select {
   gap: 8px;
 }
 .library-empty {
-  background: #f7f9f4;
+  background: var(--subtle);
   padding: 24px;
   font-size: 13px;
   line-height: 1.7;
@@ -1005,7 +1056,7 @@ select {
   display: none;
 }
 #library-status.error {
-  color: #8a352b;
+  color: var(--error-text);
 }
 @media (max-width: 700px) {
   .reader-panel,
@@ -1060,5 +1111,47 @@ select {
   }
   .site-header nav {
     gap: 14px;
+  }
+}
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  min-width: 40px;
+  padding: 8px 12px;
+  border: 1px solid var(--control-line);
+  border-radius: 7px;
+  background: var(--subtle);
+  color: var(--text);
+  font-size: 12px;
+  white-space: nowrap;
+}
+.theme-toggle:hover {
+  background: var(--hover);
+}
+.theme-toggle[aria-pressed="true"] {
+  color: var(--green);
+  background: var(--tint);
+}
+.site-header nav .theme-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+@media (max-width: 900px) {
+  .site-header nav {
+    gap: 16px;
+  }
+  .theme-toggle span {
+    display: none;
+  }
+  .theme-toggle {
+    padding: 8px;
+  }
+}
+@media (max-width: 420px) {
+  .site-header nav > a[href^="https://github.com"] {
+    display: none;
   }
 }

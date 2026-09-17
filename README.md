@@ -41,7 +41,7 @@ If unauthenticated, run `npx wrangler login` locally. CI can use a least-privile
 
 ## Architecture and privacy
 
-TypeScript/Vite serves a small initial interface; format engines load on demand. PDF.js reads/renders PDFs, Mammoth reads Word, docx writes Word, pdf-lib/fontkit writes PDF, and the browser decodes/encodes images. DOMPurify strips active HTML content. Fonts and libraries are served from the same deployment. There is no analytics, file upload endpoint, localStorage, or service worker. Cloudflare receives normal site requests and request metadata, but no file contents.
+TypeScript/Vite serves a small initial interface; format engines load on demand. PDF.js reads/renders PDFs, Mammoth reads Word, docx writes Word, pdf-lib/fontkit writes PDF, and the browser decodes/encodes images. DOMPurify strips active HTML content. Fonts and libraries are served from the same deployment. There is no analytics, file upload endpoint, or service worker. localStorage holds only the selected display theme; saved file contents remain in IndexedDB. Cloudflare receives normal site requests and request metadata, but no file contents.
 
 Source adapters produce sanitized document blocks or tabular rows, then output adapters serialize supported targets. Download object URLs are revoked on file/format changes, removal, or page exit. Only one conversion runs at a time. Cancel discards results and waits for ongoing parsing to finish; it does not forcibly interrupt synchronous library code.
 
@@ -71,3 +71,7 @@ Use **Read selected file** before converting, **Read file** beside a converted d
 Storage schema v1 uses separate metadata and Blob stores. Saves and deletes commit both stores in one transaction. SHA-256 content plus filename identifies saves, so retries and concurrent tab saves do not duplicate or overwrite files with other names. Limits: 200 files, 200 MB total, 100 MB per saved file. Quota/permission failures preserve existing files and leave downloads available. Metadata listing avoids loading all Blob contents. BroadcastChannel refreshes other open tabs after writes; a manual refresh is also available. A blocked database upgrade fails with recovery guidance. Future schema changes must increment the version and migrate existing stores without deleting user data.
 
 Tests cover every reader, PDF navigation, sanitization/no external resource loads, explicit saving, reload and browser-restart persistence, concurrent-save deduplication, deletion, and storage denial. `node scripts/smoke-deployment.mjs https://file-converter.bmorris0565.workers.dev` exercises the deployed converter; browser integration tests exercise storage and previews.
+
+## Display theme
+
+Use the moon button / **Dark mode** switch in the header. On the first visit the app follows the device color scheme and responds to device-theme changes. An explicit light/dark choice is saved locally and synchronized across open tabs. If browser storage is blocked, the switch works for the current visit. A same-origin script applies the theme before the page renders without weakening CSP. PDF pages and images keep their original colors; document reading views follow the interface theme.

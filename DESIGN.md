@@ -12,6 +12,11 @@ colors:
   disabled-bg: "#e5eade"
   disabled-text: "#5b6954"
   focus: "#9a6221"
+  dark-page: "#121a16"
+  dark-surface: "#1b2620"
+  dark-text: "#e6eee8"
+  dark-primary: "#9ed9b9"
+  dark-action: "#236447"
 typography:
   display:
     fontFamily: "Inter, sans-serif"
@@ -102,3 +107,5 @@ Navigation uses plain text links with underlined hover states. Format buttons us
 - Don't imply exact document layout preservation in interface copy.
 
 Reader and library extensions inherit the workspace border, radius and green action colors. Their header is 20px (18px on mobile), with 12px guidance. Reader content uses 16px prose or 14px monospace for literal text/JSON. Document headings are 30/24/20px. PDF pages fit the available width at the standard render setting; larger renders and tables scroll inside the content region. Library rows wrap actions below metadata on mobile. Secondary controls have a 40px minimum height and retain the existing focus treatment.
+
+The explicit dark variant uses semantic CSS tokens under `data-theme="dark"`, with native dark form controls through `color-scheme`. Page/surface/text/action colors are documented in frontmatter; muted text is #adb9b1, borders #3b4b41 and focus #e8b970. Accent text and filled action backgrounds have separate tokens to keep both readable. PDF canvases remain white and media is never filtered. The header toggle uses `aria-pressed`, a visible moon icon, and a text label above 900px.
