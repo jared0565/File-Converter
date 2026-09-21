@@ -155,16 +155,7 @@ svg {
   letter-spacing: -0.035em;
   text-decoration: none;
 }
-.brand svg {
-  width: 30px;
-  height: 30px;
-  color: var(--green);
-  stroke-width: 1.5;
-}
-.brand-dot {
-  margin-left: -9px;
-  color: var(--brand-accent);
-}
+
 .site-header nav {
   display: flex;
   gap: 30px;
@@ -1153,5 +1144,46 @@ select {
 @media (max-width: 420px) {
   .site-header nav > a[href^="https://github.com"] {
     display: none;
+  }
+}
+
+/* Outlined vector wordmarks stay sharp without font or color-filter dependencies. */
+.brand,
+.footer-brand {
+  display: inline-flex;
+  flex-shrink: 0;
+  line-height: 0;
+}
+.brand .brand-logo {
+  width: 216px;
+  height: auto;
+}
+.footer-brand .brand-logo {
+  width: 158px;
+  height: auto;
+}
+.brand-logo-light {
+  display: block;
+}
+.brand-logo-dark {
+  display: none;
+}
+:root[data-theme="dark"] .brand-logo-light {
+  display: none;
+}
+:root[data-theme="dark"] .brand-logo-dark {
+  display: block;
+}
+@media (max-width: 700px) {
+  .brand .brand-logo {
+    width: 170px;
+  }
+}
+@media (max-width: 360px) {
+  .brand .brand-logo {
+    width: 145px;
+  }
+  .site-header nav a {
+    white-space: nowrap;
   }
 }

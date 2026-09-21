@@ -75,3 +75,7 @@ Tests cover every reader, PDF navigation, sanitization/no external resource load
 ## Display theme
 
 Use the moon button / **Dark mode** switch in the header. On the first visit the app follows the device color scheme and responds to device-theme changes. An explicit light/dark choice is saved locally and synchronized across open tabs. If browser storage is blocked, the switch works for the current visit. A same-origin script applies the theme before the page renders without weakening CSP. PDF pages and images keep their original colors; document reading views follow the interface theme.
+
+## Logo and icons
+
+Production branding lives in `public/brand/`: light/dark SVG wordmarks with outlined lettering, transparent PNG exports, and a standalone conversion emblem. The header and footer choose the appropriate wordmark for the active theme. Favicons include SVG, multi-resolution ICO, PNG fallbacks, and an Apple touch icon. Rebuild exports with `node scripts/build-brand.mjs`; see `public/brand/README.md` for usage and font licensing.
