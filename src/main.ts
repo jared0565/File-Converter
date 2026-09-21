@@ -259,3 +259,5 @@ $("preview-selected").addEventListener("click", () => {
       $("preview-selected"),
     );
 });
+
+$("copyright-year").textContent = String(new Date().getFullYear());
